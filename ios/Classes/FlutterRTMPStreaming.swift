@@ -26,7 +26,11 @@ public class FlutterRTMPStreaming : NSObject {
     @objc
     public func open(url: String, width: Int, height: Int, bitrate: Int) {
         rtmpStream = RTMPStream(connection: rtmpConnection)
-        rtmpStream.sessionPreset = AVCaptureSession.Preset.hd1280x720
+        rtmpStream.sessionPreset = AVCaptureSession.Preset.inputPriority
+        rtmpStream.videoCapture(for: 0)?.preferredVideoStabilizationMode = .auto
+        rtmpStream.videoCapture(for: 0)?.device?.exposureMode = .continuousAutoExposure
+        rtmpStream.videoCapture(for: 0)?.device?.focusMode = .continuousAutoFocus
+
 //        rtmpStream.captureSettings = [
 //            .sessionPreset: AVCaptureSession.Preset.hd1280x720,
 //            .continuousAutofocus: true,
