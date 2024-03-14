@@ -45,13 +45,17 @@ public class FlutterRTMPStreaming : NSObject {
         bits.removeLast()
         self.url = bits.joined(separator: "/")
         
+        rtmpStream.videoSettings = VideoCodecSettings(videoSize: CGSize.init(width: width, height: height),
+profileLevel: kVTProfileLevel_H264_Baseline_AutoLevel as String,maxKeyFrameIntervalDuration: Int32(2)        )
+        rtmpStream.videoSettings.bitRate = bitrate
+
         
-        
-        rtmpStream.videoSettings = VideoCodecSettings(videoSize: VideoSize(width: Int32(width), height: Int32(height)),
-                                                      profileLevel:kVTProfileLevel_H264_Baseline_AutoLevel as String,
-                                                      bitRate: UInt32(bitrate),
-                                                      maxKeyFrameIntervalDuration: Int32(2)
-        )
+//
+//        rtmpStream.videoSettings = VideoCodecSettings(videoSize: VideoSize(width: Int32(width), height: Int32(height)),
+//                                                      profileLevel:kVTProfileLevel_H264_Baseline_AutoLevel as String,
+//                                                      bitRate: UInt32(bitrate),
+//                                                      maxKeyFrameIntervalDuration: Int32(2)
+//        )
         
 //        [
 //            self.width: width,
@@ -74,7 +78,9 @@ public class FlutterRTMPStreaming : NSObject {
                 print(String(format:"Orient %d", orientation.rawValue))
                 switch (orientation) {
                 case .landscapeLeft, .landscapeRight:
-                    self.rtmpStream.videoSettings.videoSize = VideoSize(width: Int32(width), height: Int32(height));
+                    
+                    
+                    self.rtmpStream.videoSettings.videoSize = CGSize.init(width:width, height: height);
                     break;
                 default:
                     break;
@@ -176,11 +182,15 @@ public class FlutterRTMPStreaming : NSObject {
         if let description = CMSampleBufferGetFormatDescription(buffer) {
             let dimensions = CMVideoFormatDescriptionGetDimensions(description)
             
-            VideoCodecSettings(videoSize: VideoSize(width: Int32(dimensions.width), height: Int32(dimensions.height)),
-                                                          profileLevel:kVTProfileLevel_H264_Baseline_AutoLevel as String,
-                                                          bitRate: UInt32(1200 * 1024),
-                                                          maxKeyFrameIntervalDuration: Int32(2))
+//            rtmpStream.videoSettings =      VideoCodecSettings(videoSize: VideoSize(width: Int32(dimensions.width), height: Int32(dimensions.height)),
+//                                                          profileLevel:kVTProfileLevel_H264_Baseline_AutoLevel as String,
+//                                                          bitRate: UInt32(1200 * 1024),
+//                                                          maxKeyFrameIntervalDuration: Int32(2))
+            
+            rtmpStream.videoSettings = VideoCodecSettings(videoSize: CGSize.init(width: Int(dimensions.width), height: Int(dimensions.height)),
+    profileLevel: kVTProfileLevel_H264_Baseline_AutoLevel as String,maxKeyFrameIntervalDuration: Int32(2)        )
             rtmpStream.frameRate = 24
+            rtmpStream.videoSettings.bitRate = 1200 * 1024
 //            rtmpStream.videoSettings = [
 //                .width: dimensions.width,
 //                .height: dimensions.height,
@@ -192,12 +202,12 @@ public class FlutterRTMPStreaming : NSObject {
 //                .fps: 24
 //            ]
         }
-        rtmpStream.appendSampleBuffer(buffer)
+        rtmpStream.append(buffer)
     }
     
     @objc
     public func addAudioData(buffer: CMSampleBuffer) {
-        rtmpStream.appendSampleBuffer( buffer)
+        rtmpStream.append( buffer)
     }
     
     @objc
@@ -210,9 +220,9 @@ public class FlutterRTMPStreaming : NSObject {
 class MyRTMPStreamQoSDelagate: RTMPConnectionDelegate {
     func connection(_ connection: HaishinKit.RTMPConnection, publishInsufficientBWOccured stream: HaishinKit.RTMPStream) {
         
-        guard let videoBitrate = stream.videoSettings.bitRate as? UInt32 else { return }
+        guard let videoBitrate = stream.videoSettings.bitRate as? Int else { return }
             
-            var         newVideoBitrate = UInt32(videoBitrate / 2)
+            var         newVideoBitrate = videoBitrate / 2
             if newVideoBitrate < minBitrate {
                 newVideoBitrate = minBitrate
             }
@@ -227,7 +237,7 @@ class MyRTMPStreamQoSDelagate: RTMPConnectionDelegate {
             
              let videoBitrate = stream.videoSettings.bitRate
             
-            var newVideoBitrate = videoBitrate + incrementBitrate
+            var newVideoBitrate = videoBitrate + Int(incrementBitrate)
             if newVideoBitrate > maxBitrate {
                 newVideoBitrate = maxBitrate
             }
@@ -240,9 +250,9 @@ class MyRTMPStreamQoSDelagate: RTMPConnectionDelegate {
         
     }
     
-    let minBitrate: UInt32 = 300 * 1024
-    let maxBitrate: UInt32 = 2500 * 1024
-    let incrementBitrate: UInt32 = 512 * 1024
+    let minBitrate: Int = 300 * 1024
+    let maxBitrate: Int = 2500 * 1024
+    let incrementBitrate: Int = 512 * 1024
     
 //    func didPublishSufficientBW(_ stream: RTMPStream, withConnection: RTMPConnection) {
 //        guard let videoBitrate = stream.videoSettings[.bitrate] as? UInt32 else { return }

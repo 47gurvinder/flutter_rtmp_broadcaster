@@ -16,7 +16,8 @@ A new flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
 #  s.dependency 'HaishinKit', '~> 1.0.10'
-  s.dependency 'HaishinKit', '~> 1.5.2'
+#  s.dependency 'HaishinKit', '~> 1.5.2'
+  s.dependency 'HaishinKit', '~> 1.7.3'
   s.platform = :ios, '10.0'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
