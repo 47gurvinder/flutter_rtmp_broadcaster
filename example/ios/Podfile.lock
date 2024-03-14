@@ -1,0 +1,52 @@
+PODS:
+  - Flutter (1.0.0)
+  - HaishinKit (1.7.4):
+    - Logboard (~> 2.4.1)
+  - Logboard (2.4.1)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - rtmp_broadcaster (0.0.1):
+    - Flutter
+    - HaishinKit (~> 1.7.3)
+  - video_player_avfoundation (0.0.1):
+    - Flutter
+  - wakelock (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - rtmp_broadcaster (from `.symlinks/plugins/rtmp_broadcaster/ios`)
+  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
+  - wakelock (from `.symlinks/plugins/wakelock/ios`)
+
+SPEC REPOS:
+  trunk:
+    - HaishinKit
+    - Logboard
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  rtmp_broadcaster:
+    :path: ".symlinks/plugins/rtmp_broadcaster/ios"
+  video_player_avfoundation:
+    :path: ".symlinks/plugins/video_player_avfoundation/ios"
+  wakelock:
+    :path: ".symlinks/plugins/wakelock/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  HaishinKit: ceecf01f162e24c64b6ce7c4e0a42cbab6c1e295
+  Logboard: b78984e3f9fa5075d5bfd9308d51b453992aad0e
+  path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  rtmp_broadcaster: f990a2c249613cbf88accf79bdd643b1462790cb
+  video_player_avfoundation: 6d971a232d72e6ee25368378d48a079dea01f1cf
+  wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
+
+PODFILE CHECKSUM: e840dd57ba2b03bcb6fdba293a27c5f82151a80a
+
+COCOAPODS: 1.15.0
